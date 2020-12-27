@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>わったークイズ！</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+
+      .result {
+        padding: 3px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>わったークイズ！！！</h1>
+
+    <p>わったーの大人気キャラクターは何でしょう？</p>
+
+    <div class="form">
+      <label for="guessField">回答を入力してください: </label>
+      <input type="text" id="guessField" class="guessField">
+      <input type="submit" value="クリック" class="guessSubmit">
+    </div>
+
+    <div class="resultParas">
+      <p class="guesses"></p>
+      <p class="result"></p>
+    </div>
+
+    <script>
+
+      let answer = 'もじもじくん'
+
+      const guesses = document.querySelector('.guesses');
+      const result = document.querySelector('.result');
+
+      const guessSubmit = document.querySelector('.guessSubmit');
+      const guessField = document.querySelector('.guessField');
+
+      let guessCount = 1;
+      let resetButton;
+
+      function checkGuess() {
+        let userGuess = guessField.value;
+
+        if (userGuess === answer){
+          result.textContent = '大正解！さ〜すが！わったーのこと，よく知ってるね！！！';
+          setGameOver();
+        } else if (guessCount === 3){
+          result.textContent = 'ぶっぶ〜！ゲームオーバー！！わったーの勉強足りないよ！！';
+          setGameOver();
+        } else {
+          result.textContent = '残念！しょうがないなぁ〜．もう一回答えていいよ！';
+        }
+
+        guessCount++;
+        guessField.value = '';
+        guessField.focus();
+      }
+
+      guessSubmit.addEventListener('click', checkGuess);
+
+      function setGameOver(){
+        guessField.disabled = 'true';
+        guessSubmit.disabled = 'true';
+        resetButton = document.createElement('button');
+        resetButton.textContent = 'もう一回チャレンジ！';
+        document.body.appendChild(resetButton);
+        resetButton.addEventListener('click', resetGame);
+      }
+
+      function resetGame(){
+        guessCount = 1;
+        const resetParas = document.querySelectorAll('.resultParas p');
+        for (let i = 0; i < resetParas.length; i++){
+          resetParas[i].textContent = '';
+        }
+
+        resetButton.parentNode.removeChild(resetButton);
+
+        guessField.disabled = false;
+        guessSubmit.disabled = false;
+        guessField.value = '';
+        guessField.focus();
+
+
+      }
+
+      </script>
+  </body>
+</html>
